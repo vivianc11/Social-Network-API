@@ -63,14 +63,14 @@ const reactionSchema = new Schema (
 )
 
 
-// GET TOTAL FRIEND COUNT
+// GET LENGTH OF THOUGHTS
 thoughtSchema.virtual('reactionCount')
 .get(function() {
     return this.reactions.length;
 })
 
-
+// CREATING THE THOUGHT MODEL WITH THE THOUGHT SCHEMA
 const Thought = model('Thought', thoughtSchema);
 
-// export the Thought model
+// EXPORTING
 module.exports = Thought;
