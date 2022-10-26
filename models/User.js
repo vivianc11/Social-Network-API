@@ -1,5 +1,5 @@
 // IMPORTING
-const { Schema, model, Types } = require('mongoose');
+const { Schema, model } = require('mongoose');
 
 const userSchema = new Schema(
   {
@@ -32,6 +32,7 @@ const userSchema = new Schema(
     ],
   },
   {
+    // CONVERTING TO JSON
     toJSON: {
       virtuals: true,
     },
@@ -39,7 +40,7 @@ const userSchema = new Schema(
   }
 );
 
-// GETTING THE LENGTH OF FRIENDS
+// GETTING THE NUMBER OF FRIENDS
 userSchema.virtual("friendCount").get(function () {
   return this.friends.length;
 });

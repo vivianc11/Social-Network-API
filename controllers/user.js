@@ -1,26 +1,15 @@
 const { User, Thought } = require("../models");
 
 module.exports = {
+  // api/users
+
   // GETTING ALL USERS
   getUser(req, res) {
     User.find({})
       .then((user) => res.status(200).json(user))
       .catch((err) => res.status(500).json(err));
   },
-  // GETTING SINGLE USER
-  getSingleUser(req, res) {
-    User.findOne({ _id: req.params.userId })
-      .populate("thoughts")
-      .populate("friends")
-      .select("-__v")
-      .then((user) =>
-        !user
-          ? res.status(404).json({ message: "No User found with that ID!" })
-          : res.status(200).json(user)
-      )
-      .catch((err) => res.status(500).json(err));
-  },
-  // CREATING A USER
+  // CREATING A NEW USER
   createUser(req, res) {
     User.create(req.body)
       .then((user) => res.status(200).json(user))
@@ -28,6 +17,22 @@ module.exports = {
         console.log(err);
         return res.status(500).json(err);
       });
+  },
+
+  // api/users/:userId
+
+  // GETTING SINGLE USER
+  getSingleUser(req, res) {
+    User.findOne({ _id: req.params.userId })
+      .populate("thoughts")
+      .populate("friends")
+      .select("-__v") // REMOVING THE __v WHEN DISPLAYING DATA
+      .then((user) =>
+        !user
+          ? res.status(404).json({ message: "No User found with that ID!" })
+          : res.status(200).json(user)
+      )
+      .catch((err) => res.status(500).json(err));
   },
   // UPDATING A USER
   updateUser(req, res) {
@@ -49,11 +54,14 @@ module.exports = {
       .then((user) =>
         !user
           ? res.status(404).json({ message: "No User found with this ID!" })
-          : Thought.deleteMany({ _id: { $in: user.thoughts } })
+          : Thought.deleteMany({ _id: { $in: user.thoughts } }) // DELETING ASSOCIATED THOUGHTS
       )
       .then(() => res.json({ message: "User and Thought deleted!" }))
       .catch((err) => res.status(500).json(err));
   },
+
+  // api/users/:userId/friends/:friendId
+
   // ADDING A FRIEND
   addFriend(req, res) {
     User.findOneAndUpdate(
@@ -70,7 +78,7 @@ module.exports = {
   },
   // DELETING A FRIEND
   deleteFriend(req, res) {
-    User.findOneAndUpdate(
+    User.findOneAndDelete(
       { _id: req.params.userId },
       { $pull: { friends: req.params.friendId } },
       { new: true }

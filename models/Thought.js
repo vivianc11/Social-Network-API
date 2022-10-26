@@ -1,6 +1,6 @@
 // IMPORTING
 const { Schema, model, Types } = require('mongoose');
-const moment = require('moment')
+const moment = require('moment'); // MOMENT USED TO FORMAT THE DATE
 
 // REACTION SCHEMA
 const reactionSchema = new Schema (
@@ -25,6 +25,7 @@ const reactionSchema = new Schema (
      },
   },
   {
+      // CONVERTING TO JSON FORMAT
       toJSON: {
           virtuals: true,
           getters: true
@@ -54,6 +55,7 @@ const thoughtSchema = new Schema (
       reactions: [reactionSchema],
     },
     {
+        // CONVERTING TO JSON
         toJSON: {
             virtuals: true,
             getters: true,

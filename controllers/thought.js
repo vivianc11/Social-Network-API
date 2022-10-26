@@ -1,21 +1,12 @@
 const { User, Thought } = require("../models");
 
 module.exports = {
+  // api/thoughts
+
   // GET ALL THOUGHTS
   getThought(req, res) {
     Thought.find({})
       .then((thought) => res.status(200).json(thought))
-      .catch((err) => res.status(500).json(err));
-  },
-  // GET A SINGLE THOUGHT
-  getSingleThought(req, res) {
-    Thought.findOne({ _id: req.params.thoughtId })
-      .select("-__v")
-      .then((thought) =>
-        !thought
-          ? res.status(404).json({ message: "No Thought found with this ID!" })
-          : res.status(200).json(thought)
-      )
       .catch((err) => res.status(500).json(err));
   },
   // CREATE A THOUGHT
@@ -32,6 +23,20 @@ module.exports = {
       .then((thought) =>
         !thought
           ? res.status(404).json({ message: "No User found with this ID!" })
+          : res.status(200).json(thought)
+      )
+      .catch((err) => res.status(500).json(err));
+  },
+
+  // api/thoughts/:thoughtId
+
+  // GET A SINGLE THOUGHT
+  getSingleThought(req, res) {
+    Thought.findOne({ _id: req.params.thoughtId })
+      .select("-__v")
+      .then((thought) =>
+        !thought
+          ? res.status(404).json({ message: "No Thought found with this ID!" })
           : res.status(200).json(thought)
       )
       .catch((err) => res.status(500).json(err));
@@ -69,6 +74,9 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
+
+  // api/thoughts/:thoughtId/reactions
+
   // CREATE A REACTION
   createReaction(req, res) {
     Thought.findOneAndUpdate(
@@ -78,11 +86,14 @@ module.exports = {
     )
       .then((thought) =>
         !thought
-          ? res.status(404).json({ message: "No thought friend with ID!" })
+          ? res.status(404).json({ message: "No thought found with ID!" })
           : res.status(200).json(thought)
       )
       .catch((err) => res.status(500).json(err));
   },
+
+  // api/thoughts/:thoughtId/reactions/:reactionId
+
   // DELETE A REACTION
   deleteReaction(req, res) {
     Thought.findOneAndUpdate(
