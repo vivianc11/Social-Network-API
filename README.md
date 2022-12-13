@@ -30,6 +30,25 @@ THEN I am able to successfully create and delete reactions to thoughts and add a
 - Learned associated folder structures and syntax that is needed for using MongoDB
 - Continued developing knowledge of routing information to/from the database 
 
+## Installation
+
+```sh
+npm i express mongoose
+```
+
+## Usage
+
+Open Integrated Terminal, then run command:
+```sh
+node server.js
+```
+
 ## Walkthrough Video Link
 
 https://drive.google.com/file/d/19Abctieg9PoMeLAvoxO82QMWlR858QIx/view
+
+## License
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+This project is licensed under the terms of the MIT license.
